@@ -30,9 +30,12 @@ SOFTWARE.
 
     <name>Purchase</name>
 	<description>Cordova Purchase plugin for iOS and Android (AppStore and PlayStore)</description>
+    
+    <!-- 
     <engines>
         <engine name="cordova" version=">=2.4.0" />
     </engines>
+    -->
     <repo>https://github.com/j3k0/cordova-plugin-purchase.git</repo>
     <issue>https://github.com/j3k0/cordova-plugin-purchase/issues</issue>
 
