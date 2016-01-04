@@ -345,13 +345,16 @@ unsigned char* unbase64( const char* ascii, int len, int *flen )
     productsRequest.delegate = delegate;
     delegate.plugin  = self;
     delegate.command = command;
+    
+    self.retainer[[NSString stringWithFormat:@"productsRequest%@", productIdentifiers]] = productsRequest;
+    self.retainer[[NSString stringWithFormat:@"productsRequestDelegate%@", productIdentifiers]] = delegate;
 
-#if ARC_ENABLED
+/*#if ARC_ENABLED
     self.retainer[[NSString stringWithFormat:@"productsRequest%@", productIdentifiers]] = productsRequest;
     self.retainer[[NSString stringWithFormat:@"productsRequestDelegate%@", productIdentifiers]] = delegate;
 #else
     [delegate retain];
-#endif
+#endif*/
 
     DLog(@"Starting product request...");
     [productsRequest start];
@@ -664,12 +667,15 @@ static NSString *rootAppleCA = @"MIIEuzCCA6OgAwIBAgIBAjANBgkqhkiG9w0BAQUFADBiMQs
     delegate.plugin  = self;
     delegate.command = command;
     
-#if ARC_ENABLED
+    self.retainer[@"receiptRefreshRequest"] = recreq;
+    self.retainer[@"receiptRefreshRequestDelegate"] = delegate;
+    
+/*#if ARC_ENABLED
     self.retainer[@"receiptRefreshRequest"] = recreq;
     self.retainer[@"receiptRefreshRequestDelegate"] = delegate;
 #else
     [delegate retain];
-#endif
+#endif*/
 
     DLog(@"Starting receipt refresh request...");
     [recreq start];
@@ -894,14 +900,17 @@ static NSString *rootAppleCA = @"MIIEuzCCA6OgAwIBAgIBAjANBgkqhkiG9w0BAQUFADBiMQs
                                                       messageAsArray:callbackArgs];
     DLog(@"Send new receipt data");
     [self.plugin.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    
+    [self.plugin.retainer removeObjectForKey:@"receiptRefreshRequest"];
+    [self.plugin.retainer removeObjectForKey:@"receiptRefreshRequestDelegate"];
 
-#if ARC_ENABLED
+/*#if ARC_ENABLED
     [self.plugin.retainer removeObjectForKey:@"receiptRefreshRequest"];
     [self.plugin.retainer removeObjectForKey:@"receiptRefreshRequestDelegate"];
 #else
     [request release];
     [self    release];
-#endif
+#endif*/
 }
 
 - (void):(SKRequest *)request didFailWithError:(NSError*) error {
@@ -966,7 +975,7 @@ static NSString *rootAppleCA = @"MIIEuzCCA6OgAwIBAgIBAjANBgkqhkiG9w0BAQUFADBiMQs
     DLog(@"productsRequest: didReceiveResponse: sendPluginResult: %@", callbackArgs);
     [self.plugin.commandDelegate sendPluginResult:pluginResult callbackId:self.command.callbackId];
 
-#if ARC_ENABLED
+/*#if ARC_ENABLED
     // For some reason, the system needs to send more messages to the productsRequestDelegate after this.
     // However, it doesn't retain it which causes a crash!
     // That's why we need keep references to the productsRequest[Delegate] objects...
@@ -976,7 +985,7 @@ static NSString *rootAppleCA = @"MIIEuzCCA6OgAwIBAgIBAjANBgkqhkiG9w0BAQUFADBiMQs
 #else
     [request release];
     [self    release];
-#endif
+#endif*/
 }
 
 - (void)request:(SKRequest *)request didFailWithError:(NSError *)error
