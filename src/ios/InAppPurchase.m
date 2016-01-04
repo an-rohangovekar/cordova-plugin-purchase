@@ -436,7 +436,8 @@ unsigned char* unbase64( const char* ascii, int len, int *flen )
 				state = @"PaymentTransactionStateRestored";
 				transactionIdentifier = transaction.transactionIdentifier;
                 if (!transactionIdentifier)
-                    transactionIdentifier = transaction.originalTransaction.transactionIdentifier;
+                    		transactionIdentifier = transaction.originalTransaction.transactionIdentifier;
+                    		transactionReceipt = [[transaction transactionReceipt] cdv_base64EncodedString];
 				transactionReceipt = [[transaction transactionReceipt] base64EncodedString];
 				productId = transaction.originalTransaction.payment.productIdentifier;
                 canFinish = YES;
