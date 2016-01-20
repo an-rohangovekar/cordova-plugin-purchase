@@ -452,6 +452,7 @@ unsigned char* unbase64( const char* ascii, int len, int *flen )
                 state = @"PaymentTransactionStatePurchased";
                 transactionIdentifier = transaction.transactionIdentifier;
                 transactionReceipt = [[transaction transactionReceipt] cdv_base64EncodedString];
+                transactionReceipt = [[transaction transactionReceipt] base64EncodedString];
                 productId = transaction.payment.productIdentifier;
                 downloads = transaction.downloads;
                 canFinish = YES;
@@ -478,6 +479,7 @@ unsigned char* unbase64( const char* ascii, int len, int *flen )
                 if (!transactionIdentifier)
                     transactionIdentifier = transaction.originalTransaction.transactionIdentifier;
                 transactionReceipt = [[transaction transactionReceipt] cdv_base64EncodedString];
+                transactionReceipt = [[transaction transactionReceipt] base64EncodedString];
                 productId = transaction.originalTransaction.payment.productIdentifier;
                 downloads = transaction.downloads;
                 canFinish = YES;
